@@ -196,6 +196,8 @@
    */
   function isValid (m) {
     return predicate.type('[[Number]]', m) &&
+      m.length > 0 &&
+      m[0].length > 0 &&
       m.map(vector.dim)
        .reduce(function (result, length) {
          return result && length === m[0].length
