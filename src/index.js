@@ -17,7 +17,6 @@
 
   /* imports */
   var array = require('fun-array')
-  var curry = require('fun-curry')
   var fn = require('fun-function')
   var predicate = require('fun-predicate')
   var vector = require('fun-vector')
@@ -26,20 +25,20 @@
   /* exports */
   module.exports = {
     isValid: isValid,
-    sum: curry(sum),
-    set: curry(set),
-    get: curry(get),
-    row: curry(row),
-    sub: curry(sub),
-    dot: curry(dot),
-    map: curry(map),
+    sum: fn.curry(sum),
+    set: fn.curry(set),
+    get: fn.curry(get),
+    row: fn.curry(row),
+    sub: fn.curry(sub),
+    dot: fn.curry(dot),
+    map: fn.curry(map),
     zero: zero,
     id: id,
-    k: curry(k),
+    k: fn.curry(k),
     t: t,
-    j: curry(j),
+    j: fn.curry(j),
     dim: dim,
-    scale: curry(scale)
+    scale: fn.curry(scale)
   }
 
   /**
