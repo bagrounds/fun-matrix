@@ -24,7 +24,7 @@
 
   /* exports */
   module.exports = {
-    isValid: isValid,
+    isMatrix: isMatrix,
     sum: fn.curry(sum),
     set: fn.curry(set),
     get: fn.curry(get),
@@ -187,13 +187,13 @@
 
   /**
    *
-   * @function module:fun-matrix.isValid
+   * @function module:fun-matrix.isMatrix
    *
    * @param {*} m - candidate to check
    *
    * @return {Boolean} if m is a valid matrix
    */
-  function isValid (m) {
+  function isMatrix (m) {
     return predicate.type('[[Number]]', m) &&
       m.length > 0 &&
       m[0].length > 0 &&

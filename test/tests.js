@@ -9,11 +9,11 @@
   var array = require('fun-array')
 
   var equalityTests = [
-    [[[]], false, 'isValid'],
-    [[[[]]], false, 'isValid'],
-    [[[[], [1]]], false, 'isValid'],
-    [[[[1], [1, 2]]], false, 'isValid'],
-    [[[[1]]], true, 'isValid']
+    [[[]], false, 'isMatrix'],
+    [[[[]]], false, 'isMatrix'],
+    [[[[], [1]]], false, 'isMatrix'],
+    [[[[1], [1, 2]]], false, 'isMatrix'],
+    [[[[1]]], true, 'isMatrix']
   ].map(arrange({ inputs: 0, predicate: 1, contra: 2 }))
     .map(object.ap({
       predicate: predicate.equalDeep,
