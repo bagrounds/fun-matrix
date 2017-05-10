@@ -153,22 +153,25 @@
    * @return {Matrix} square zero matrix of size n with coord set to 1
    */
   function j (n, coord) {
-    return set(coord[0], coord[1], 1, zero([n, n]))
+    return set(coord, 1, zero([n, n]))
   }
 
   /**
    *
    * @function module:fun-matrix.set
    *
-   * @param {Number} i - row index
-   * @param {Number} j - column index
+   * @param {Vector} coord - coordinate of value to set
    * @param {Number} value - to set
    * @param {Matrix} matrix - to set the value on
    *
-   * @return {Matrix} square zero matrix of size n with coord set to 1
+   * @return {Matrix} matrix with element at coord changed to value
    */
-  function set (i, j, value, matrix) { // eslint-disable-line max-params
-    return array.set(j, array.set(i, value, matrix[j]), matrix)
+  function set (coord, value, matrix) {
+    return array.set(
+      coord[1],
+      array.set(coord[0], value, matrix[coord[1]]),
+      matrix
+    )
   }
 
   /**
