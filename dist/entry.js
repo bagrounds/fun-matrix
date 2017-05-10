@@ -1,0 +1,2 @@
+funMatrix = require('../src')
+
