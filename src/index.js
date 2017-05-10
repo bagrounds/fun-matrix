@@ -23,6 +23,7 @@
 
   /* exports */
   module.exports = {
+    vec: vec,
     isMatrix: isMatrix,
     sum: fn.curry(sum),
     set: fn.curry(set),
@@ -38,6 +39,18 @@
     j: fn.curry(j),
     dim: dim,
     scale: fn.curry(scale)
+  }
+
+  /**
+   *
+   * @function module:fun-matrix.vec
+   *
+   * @param {Matrix} m - matrix to vectorize
+   *
+   * @return {Vector} of columns of m
+   */
+  function vec (m) {
+    return array.fold(array.concat, [], m)
   }
 
   /**

@@ -9,6 +9,11 @@
   var array = require('fun-array')
 
   var equalityTests = [
+    [[[[1]]], [1], 'vec'],
+    [[[[1, 2]]], [1, 2], 'vec'],
+    [[[[1], [2]]], [1, 2], 'vec'],
+    [[[[1, 2], [3, 4]]], [1, 2, 3, 4], 'vec'],
+    [[[[1, 2], [3, 4], [5, 6]]], [1, 2, 3, 4, 5, 6], 'vec'],
     [[[]], false, 'isMatrix'],
     [[[[]]], false, 'isMatrix'],
     [[[[], [1]]], false, 'isMatrix'],
