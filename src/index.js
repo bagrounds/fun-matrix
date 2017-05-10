@@ -20,7 +20,6 @@
   var fn = require('fun-function')
   var predicate = require('fun-predicate')
   var vector = require('fun-vector')
-  var lens = require('fun-lens')
 
   /* exports */
   module.exports = {
@@ -178,14 +177,13 @@
    *
    * @function module:fun-matrix.get
    *
-   * @param {Number} i - row index
-   * @param {Number} j - column index
+   * @param {Vector} coord - coordinate of value to get
    * @param {Matrix} matrix - to get the value from
    *
-   * @return {Number} value at matrix row i, column j
+   * @return {Number} value at matrix coordinate coord
    */
-  function get (i, j, matrix) {
-    return lens.get([j, i], matrix)
+  function get (coord, matrix) {
+    return matrix[coord[1]][coord[0]]
   }
 
   /**
