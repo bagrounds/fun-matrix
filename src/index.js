@@ -23,6 +23,7 @@
 
   /* exports */
   module.exports = {
+    addScaledRow: fn.curry(addScaledRow),
     scaleRow: fn.curry(scaleRow),
     swapRows: fn.curry(swapRows),
     vec: vec,
@@ -42,6 +43,28 @@
     j: fn.curry(j),
     dim: dim,
     scale: fn.curry(scale)
+  }
+
+  /**
+   *
+   * @function module:fun-matrix.addScaledRow
+   *
+   * @param {Number} target - index of row to add to
+   * @param {Number} source - index of row to add (scaled) to target
+   * @param {Number} factor - to scale by source by
+   * @param {Matrix} m - matrix to operate on
+   *
+   * @return {Matrix} m with row source * factor added to target
+   */ // eslint-disable-next-line max-params
+  function addScaledRow (target, source, factor, m) {
+    return setRow(
+      target,
+      vector.sum(
+        row(target, m),
+        vector.scale(factor, row(source, m))
+      ),
+      m
+    )
   }
 
   /**
