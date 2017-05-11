@@ -23,10 +23,12 @@
 
   /* exports */
   module.exports = {
+    swapRows: fn.curry(swapRows),
     vec: vec,
     isMatrix: isMatrix,
     sum: fn.curry(sum),
     set: fn.curry(set),
+    setRow: fn.curry(setRow),
     get: fn.curry(get),
     row: fn.curry(row),
     sub: fn.curry(sub),
@@ -39,6 +41,21 @@
     j: fn.curry(j),
     dim: dim,
     scale: fn.curry(scale)
+  }
+
+  /**
+   *
+   * @function module:fun-matrix.swapRows
+   *
+   * @param {Number} r1 - a row to swap
+   * @param {Number} r2 - another row to swap
+   * @param {Matrix} m - matrix
+   *
+   * @return {Matrix} m with rows r1 and r2 swapped
+   */
+  function swapRows (r1, r2, m) {
+    var temp = row(r1, m)
+    return setRow(r2, temp, setRow(r1, row(r2, m), m))
   }
 
   /**
@@ -166,6 +183,22 @@
    */
   function j (n, coord) {
     return set(coord, 1, zero([n, n]))
+  }
+
+  /**
+   *
+   * @function module:fun-matrix.setRow
+   *
+   * @param {Number} n - row index to set
+   * @param {Vector} row - to set
+   * @param {Matrix} matrix - to set row on
+   *
+   * @return {Matrix} matrix with row n set to row
+   */
+  function setRow (n, row, matrix) {
+    return matrix.map(function (column, i) {
+      return array.set(n, row[i], column)
+    })
   }
 
   /**
