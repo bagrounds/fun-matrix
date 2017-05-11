@@ -23,6 +23,7 @@
 
   /* exports */
   module.exports = {
+    scaleRow: fn.curry(scaleRow),
     swapRows: fn.curry(swapRows),
     vec: vec,
     isMatrix: isMatrix,
@@ -41,6 +42,20 @@
     j: fn.curry(j),
     dim: dim,
     scale: fn.curry(scale)
+  }
+
+  /**
+   *
+   * @function module:fun-matrix.scaleRow
+   *
+   * @param {Number} i - index of row to scale
+   * @param {Number} factor - to scale by
+   * @param {Matrix} m - matrix to scale row on
+   *
+   * @return {Matrix} m with row i scaled by factor
+   */
+  function scaleRow (i, factor, m) {
+    return setRow(i, vector.scale(factor, row(i, m)), m)
   }
 
   /**
