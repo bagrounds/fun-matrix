@@ -18,7 +18,6 @@
   /* imports */
   var array = require('fun-array')
   var fn = require('fun-function')
-  var predicate = require('fun-predicate')
   var vector = require('fun-vector')
   var type = require('fun-type')
 
@@ -280,17 +279,13 @@
    * @return {Boolean} if m is a valid matrix
    */
   function isMatrix (m) {
-    return predicate.and(
-      type.matrixOf(type.num),
-      function (m) {
-        return m.length > 0 &&
-          m[0].length > 0 &&
-          m.map(vector.dim)
-            .reduce(function (result, length) {
-              return result && length === m[0].length
-            }, true)
-      }
-    )(m)
+    return type.matrixOf(type.num, m) &&
+      m.length > 0 &&
+      m[0].length > 0 &&
+      m.map(vector.dim)
+        .reduce(function (result, length) {
+          return result && length === m[0].length
+        }, true)
   }
 
   /**
