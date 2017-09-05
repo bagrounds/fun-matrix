@@ -2,6 +2,7 @@ node_modules
 
 # vim temp files
 *.swp
+*~
 
 # auto generated
 coverage
