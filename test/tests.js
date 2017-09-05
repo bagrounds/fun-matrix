@@ -2,11 +2,45 @@
   'use strict'
 
   /* imports */
+  var setProp = require('set-prop')
+  var fn = require('fun-function')
   var predicate = require('fun-predicate')
   var object = require('fun-object')
   var funTest = require('fun-test')
   var arrange = require('fun-arrange')
   var array = require('fun-array')
+  var generate = require('fun-generator')
+  var properties = require('./properties')
+
+  function mByNMatrix (pair) {
+    return generate.arrayOf(
+      generate.arrayOf(generate.integer(-100, 100)),
+      array.map(
+        array.sequence(Math.random),
+        array.sequence(fn.k(pair[1]), pair[0])
+      )
+    )
+  }
+
+  function wrapSyncTest (test) {
+    return setProp('name', test.name, function (subject, callback) {
+      callback(null, test(subject))
+    })
+  }
+
+  function monoidProperty (dim) {
+    return properties.monoid(
+      fn.k(predicate.equalDeep),
+      object.get('sum'),
+      fn.compose(fn.apply([dim]), object.get('zero')),
+      array.map(mByNMatrix, array.repeat(3, array.reverse(dim)))
+    )
+  }
+
+  var propertyTests = array.map(monoidProperty, array.cartesian(
+    array.range(1, 4),
+    array.range(1, 4)
+  )).map(wrapSyncTest)
 
   var equalityTests = [
     [[0, 1, 3, [[1, 2], [3, 4]]], [[7, 2], [15, 4]], 'addScaledRow'],
@@ -66,9 +100,8 @@
     }))
 
   /* exports */
-  module.exports = [
-    equalityTests
-  ].reduce(array.concat, [])
-    .map(funTest.sync)
+  module.exports = propertyTests.concat(
+    equalityTests.map(funTest.sync)
+  )
 })()
 
