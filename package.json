@@ -40,6 +40,7 @@
     "fun-object": "^0.6.3",
     "fun-test": "^0.24.1",
     "fun-test-runner": "^0.9.1",
+    "guarded": "^0.7.3",
     "jsdoc": "3.5.4",
     "madge": "2.2.0",
     "next-update": "^3.5.3",
