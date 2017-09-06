@@ -12,9 +12,12 @@
   var generate = require('fun-generator')
   var properties = require('./properties')
 
+  var MAX_NUM = Number.MAX_SAFE_INTEGER / 4
+  var MIN_NUM = Number.MIN_SAFE_INTEGER / 4
+
   function mByNMatrix (pair) {
     return generate.arrayOf(
-      generate.arrayOf(generate.integer(-100, 100)),
+      generate.arrayOf(generate.integer(MIN_NUM, MAX_NUM)),
       array.map(
         array.sequence(Math.random),
         array.sequence(fn.k(pair[1]), pair[0])
@@ -30,7 +33,7 @@
 
   function monoidProperty (dim) {
     return properties.monoid(
-      fn.k(predicate.equalDeep),
+      object.get('equal'),
       object.get('sum'),
       fn.compose(fn.apply([dim]), object.get('zero')),
       array.map(mByNMatrix, array.repeat(3, array.reverse(dim)))
@@ -43,6 +46,12 @@
   )).map(wrapSyncTest)
 
   var equalityTests = [
+    [[[[1 - Number.EPSILON / 2, 2]], [[1, 2]]], true, 'eNear'],
+    [[[[1 + Number.EPSILON * 2, 2]], [[1, 2]]], false, 'eNear'],
+    [[0.01, [[1.009, 2]], [[1, 2]]], true, 'near'],
+    [[0.01, [[1.011, 2]], [[1, 2]]], false, 'near'],
+    [[[[1, 2]], [[1, 2]]], true, 'equal'],
+    [[[[1, 2]], [[1, 2.1]]], false, 'equal'],
     [[0, 1, 3, [[1, 2], [3, 4]]], [[7, 2], [15, 4]], 'addScaledRow'],
     [[0, 3, [[1, 2], [3, 4]]], [[3, 2], [9, 4]], 'scaleRow'],
     [[0, 1, [[1, 2], [3, 4]]], [[2, 1], [4, 3]], 'swapRows'],

@@ -22,6 +22,7 @@
   var type = require('fun-type')
   var object = require('fun-object')
   var guarded = require('guarded')
+  var bool = require('fun-boolean')
 
   var api = {
     addScaledRow: addScaledRow,
@@ -44,10 +45,19 @@
     t: t,
     j: j,
     dim: dim,
-    scale: scale
+    scale: scale,
+    equal: equal,
+    near: near,
+    eNear: eNear
   }
 
   var guards = {
+    near: guarded(
+      type.tuple([type.num, isMatrix, isMatrix]),
+      type.bool
+    ),
+    eNear: guarded(type.tuple([isMatrix, isMatrix]), type.bool),
+    equal: guarded(type.tuple([isMatrix, isMatrix]), type.bool),
     addScaledRow: guarded(
       type.tuple([type.num, type.num, type.num, isMatrix]),
       isMatrix
@@ -103,6 +113,49 @@
 
   /* exports */
   module.exports = object.map(fn.curry, object.ap(guards, api))
+
+  /**
+   *
+   * @function module:fun-matrix.near
+   *
+   * @param {Number} delta - threshold for nearness
+   * @param {Matrix} m1 - first matrix to compare
+   * @param {Matrix} m2 - second matrix to compare
+   *
+   * @return {Boolean} if m1 is delta-near m2 in each component
+   */
+  function near (delta, m1, m2) {
+    return vector.equal(dim(m1), dim(m2)) &&
+      bool.all(array.zipWith(vector.near(delta), m1, m2))
+  }
+
+  /**
+   *
+   * @function module:fun-matrix.eNear
+   *
+   * @param {Matrix} m1 - first matrix to compare
+   * @param {Matrix} m2 - second matrix to compare
+   *
+   * @return {Boolean} if m1 is epsilon-near m2 in each component
+   */
+  function eNear (m1, m2) {
+    return vector.equal(dim(m1), dim(m2)) &&
+      bool.all(array.zipWith(vector.eNear, m1, m2))
+  }
+
+  /**
+   *
+   * @function module:fun-matrix.equal
+   *
+   * @param {Matrix} m1 - first matrix to compare
+   * @param {Matrix} m2 - second matrix to compare
+   *
+   * @return {Boolean} if m1 equals m2 in each component
+   */
+  function equal (m1, m2) {
+    return vector.equal(dim(m1), dim(m2)) &&
+      bool.all(array.zipWith(vector.equal, m1, m2))
+  }
 
   /**
    *

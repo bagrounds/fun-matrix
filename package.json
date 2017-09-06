@@ -49,10 +49,11 @@
   },
   "dependencies": {
     "fun-array": "^0.11.0",
+    "fun-boolean": "^0.3.2",
     "fun-function": "^0.9.1",
-    "fun-type": "^0.6.2",
     "fun-object": "^0.6.3",
-    "guarded": "^0.7.3",
-    "fun-vector": "^0.3.0"
+    "fun-type": "^0.6.2",
+    "fun-vector": "^0.3.0",
+    "guarded": "^0.7.3"
   }
 }
