@@ -20,30 +20,89 @@
   var fn = require('fun-function')
   var vector = require('fun-vector')
   var type = require('fun-type')
+  var object = require('fun-object')
+  var guarded = require('guarded')
 
-  /* exports */
-  module.exports = {
-    addScaledRow: fn.curry(addScaledRow),
-    scaleRow: fn.curry(scaleRow),
-    swapRows: fn.curry(swapRows),
+  var api = {
+    addScaledRow: addScaledRow,
+    scaleRow: scaleRow,
+    swapRows: swapRows,
     vec: vec,
     isMatrix: isMatrix,
-    sum: fn.curry(sum),
-    set: fn.curry(set),
-    setRow: fn.curry(setRow),
-    get: fn.curry(get),
-    row: fn.curry(row),
-    sub: fn.curry(sub),
-    dot: fn.curry(dot),
-    map: fn.curry(map),
+    sum: sum,
+    set: set,
+    setRow: setRow,
+    get: get,
+    row: row,
+    col: col,
+    sub: sub,
+    dot: dot,
+    map: map,
     zero: zero,
     id: id,
-    k: fn.curry(k),
+    k: k,
     t: t,
-    j: fn.curry(j),
+    j: j,
     dim: dim,
-    scale: fn.curry(scale)
+    scale: scale
   }
+
+  var guards = {
+    addScaledRow: guarded(
+      type.tuple([type.num, type.num, type.num, isMatrix]),
+      isMatrix
+    ),
+    scaleRow: guarded(
+      type.tuple([type.num, type.num, isMatrix]),
+      isMatrix
+    ),
+    swapRows: guarded(
+      type.tuple([type.num, type.num, isMatrix]),
+      isMatrix
+    ),
+    vec: guarded(type.tuple([isMatrix]), type.arrayOf(type.num)),
+    sum: guarded(type.tuple([isMatrix, isMatrix]), isMatrix),
+    sub: guarded(type.tuple([isMatrix, isMatrix]), isMatrix),
+    map: guarded(type.tuple([type.fun, isMatrix]), isMatrix),
+    id: guarded(type.tuple([type.num]), isMatrix),
+    dot: guarded(type.tuple([isMatrix, isMatrix]), isMatrix),
+    zero: guarded(type.tuple([type.vectorOf(2, type.num)]), isMatrix),
+    k: guarded(
+      type.tuple([type.vectorOf(2, type.num), type.num]),
+      isMatrix
+    ),
+    j: guarded(
+      type.tuple([type.num, type.vectorOf(2, type.num)]),
+      isMatrix
+    ),
+    setRow: guarded(
+      type.tuple([type.num, type.arrayOf(type.num), isMatrix]),
+      isMatrix
+    ),
+    set: guarded(
+      type.tuple([type.vectorOf(2, type.num), type.num, isMatrix]),
+      isMatrix
+    ),
+    get: guarded(
+      type.tuple([type.vectorOf(2, type.num), isMatrix]),
+      type.num
+    ),
+    isMatrix: guarded(type.tuple([type.any]), type.bool),
+    dim: guarded(type.tuple([isMatrix]), type.vectorOf(2, type.num)),
+    scale: guarded(type.tuple([type.num, isMatrix]), isMatrix),
+    t: guarded(type.tuple([isMatrix]), isMatrix),
+    row: guarded(
+      type.tuple([type.num, isMatrix]),
+      type.arrayOf(type.num)
+    ),
+    col: guarded(
+      type.tuple([type.num, isMatrix]),
+      type.arrayOf(type.num)
+    )
+  }
+
+  /* exports */
+  module.exports = object.map(fn.curry, object.ap(guards, api))
 
   /**
    *
@@ -215,7 +274,7 @@
    * @function module:fun-matrix.j
    *
    * @param {Number} n - dimension of square matrix to return
-   * @param {Number} coord - coordinate to set to 1
+   * @param {Vector} coord - coordinate to set to 1
    *
    * @return {Matrix} square zero matrix of size n with coord set to 1
    */
@@ -294,7 +353,7 @@
    *
    * @param {Matrix} m - matrix to check dimensions of
    *
-   * @return {Array<Number>} [numRows, numColumns]
+   * @return {Vector} [numRows, numColumns]
    */
   function dim (m) {
     return [m[0].length, m.length]

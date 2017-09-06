@@ -37,10 +37,9 @@
     "eslint": "4.6.1",
     "fun-arrange": "^0.1.4",
     "fun-generator": "^0.2.0",
-    "fun-object": "^0.6.3",
+    "fun-predicate": "^0.16.0",
     "fun-test": "^0.24.1",
     "fun-test-runner": "^0.9.1",
-    "guarded": "^0.7.3",
     "jsdoc": "3.5.4",
     "madge": "2.2.0",
     "next-update": "^3.5.3",
@@ -51,8 +50,9 @@
   "dependencies": {
     "fun-array": "^0.11.0",
     "fun-function": "^0.9.1",
-    "fun-predicate": "^0.16.0",
     "fun-type": "^0.6.2",
+    "fun-object": "^0.6.3",
+    "guarded": "^0.7.3",
     "fun-vector": "^0.3.0"
   }
 }
